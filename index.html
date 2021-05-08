@@ -146,15 +146,17 @@
                 <th class="last-name-header"><span>Last Name</span></th>
                 <th class="email-header"><span>email</span></th>
                 <th class="user-type-header"><span>User Type</span></th>
+                <th class="delete-header"><span></span></th>
               </tr>`;
             for (let i = 0; i < data.rows.length; i++) {
               let row = data.rows[i];
               str += ("<tr><td class='id'>" + row.ID
                 + "</td><td class='first-name'>" + row.first_name + "</td>"
-                + "</td><td class='last-name'>" + row.last_name + "</td>"
-                + "</td><td class='email'><span>"
+                + "<td class='last-name'>" + row.last_name + "</td>"
+                + "<td class='email'><span>"
                 + row.email + "</span></td>"
-                + "</td><td class='user-type'>" + row.user_type + "</td></tr>");
+                + "<td class='user-type'>" + row.user_type + "</td>"
+                + "<td class='delete'><a href='#' id='>" + i.toString() + "'>delete</a></td></tr>");
             }
             //console.log(str);
             $("#users").html(str);
@@ -203,6 +205,26 @@
       });
 
       $('#delete-all').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+          url: "/delete-all-users",
+          dataType: "json",
+          type: "POST",
+          success: function (data) {
+            console.log(data);
+            $("#status").html("All records deleted.");
+            getUsers();
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            $("#p2").text(jqXHR.statusText);
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+          }
+
+        });
+      });
+
+      $('#delete').click(function (e) {
         e.preventDefault();
 
         $.ajax({
