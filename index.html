@@ -152,11 +152,14 @@
             for (let i = 0; i < data.rows.length; i++) {
               let row = data.rows[i];
               str += ("<tr><td class='id'>" + row.ID
-                + "</td><td class='first-name'>" + row.first_name + "</td>"
-                + "<td class='last-name'>" + row.last_name + "</td>"
+                + "</td><td class='first_name'><span>"
+                + row.first_name + "</span></td>"
+                + "<td class='last_name'><span>"
+                + row.last_name + "<span></td>"
                 + "<td class='email'><span>"
                 + row.email + "</span></td>"
-                + "<td class='user-type'>" + row.user_type + "</td>"
+                + "<td class='user_type'><span>"
+                + row.user_type + "</span></td>"
                 + "<td ><a class='delete' id='row-id-" + row.ID + "' href='#'>delete</a></td></tr>");
             }
             //console.log(str);
@@ -204,14 +207,6 @@
         });
       });
 
-      // $(document).click(function (event) {
-      //   console.log("success");
-      //   console.log(event);
-      //   // let rowID = $(event.target).class;
-      //   console.log($(event.target).attr("id"));
-      //   console.log('test');
-      // });
-
       $(document).click(function (e) {
         if ($(e.target).attr("class") === "delete") {
           console.log("success");
@@ -220,7 +215,7 @@
           console.log(rowID);
           // Extract row number from id
           rowID = rowID.match(/\d+/);
-          let data = { row_id: parseInt(rowID)};
+          let data = { row_id: parseInt(rowID) };
           e.preventDefault();
           $.ajax({
             url: "/delete-user",
@@ -266,7 +261,8 @@
       $('#users').on('click', 'span', function () {
 
         //console.log($(this).parent().attr('class'));
-        if ($(this).parent().attr('class') === 'email') {
+        if ($(this).parent().attr('class') === 'first_name' || $(this).parent().attr('class') === 'last_name'
+          || $(this).parent().attr('class') === 'email' || $(this).parent().attr('class') === 'user_type') {
           //console.log($(this).text() );
           // got the td, let's use it create a slight-of-hand
           // create an input, put the text from the span into
@@ -276,7 +272,8 @@
           let spanText = $(this).text();
           let td = $(this).parent();
           let input = $("<input type='text' value='" + spanText + "'>");
-
+          let updateType = $(this).parent().attr('class');
+        
           td.html(input);
           //console.log(td.html());
           $(input).keyup(function (e) {
@@ -290,10 +287,11 @@
               // lastly, send the update:
 
               console.log(td.parent().find("[class='id']")[0]);
-
+              
               let dataToSend = {
+                update_type: updateType,
                 id: td.parent().find("[class='id']").html(),
-                email: val
+                value: val
               };
               //console.log(dataToSend);
               $.ajax({

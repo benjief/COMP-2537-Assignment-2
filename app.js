@@ -166,12 +166,13 @@ app.post('/update-user', function (req, res) {
   });
   connection.connect();
 
-  connection.query('UPDATE users SET email = ? WHERE ID = ?',
-    [req.body.email, req.body.id],
+  connection.query('UPDATE users SET ' + req.body.update_type + ' = ? WHERE ID = ?',
+    [req.body.value, req.body.id],
     function (error, results, fields) {
       if (error) {
         throw error;
       }
+      console.log(req.body);
       //console.log('Rows returned are: ', results);
       res.send({ status: "success", msg: "Recorded updated." });
 
