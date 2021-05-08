@@ -10,7 +10,6 @@
     integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
   <!-- Optional styles and scripts -->
-  <link rel="stylesheet" href="http://localhost:8000/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <style>
@@ -84,7 +83,7 @@
 
   <div id="content">
     <p><i>Only the email is editable</i></p>
-    <table id="customers">
+    <table id="users">
       <!--
         <tr>
           <th class="name_header"><span>Name</span></th>
@@ -104,14 +103,16 @@
     </table>
     <form>
       <fieldset>
-        <legend>Add a Customer</legend>
-        <input type="text" placeholder="name" id="name" />
+        <legend>Add a user</legend>
+        <input type="text" placeholder="first name" id="first-name" />
+        <input type="text" placeholder="last name" id="last-name" />
         <input type="email" placeholder="email" id="email" />
+        <input type="text" placeholder="user type" id="user-type" />
         <input type="button" id="submit" value="Submit" />
       </fieldset>
       <fieldset>
-        <legend>Delete All Customers (use with caution!)</legend>
-        <input type="button" id="deleteAll" value="Delete All" />
+        <legend>Delete all users (use with caution!)</legend>
+        <input type="button" id="delete-all" value="Delete All" />
       </fieldset>
     </form>
     <p id="status"></p>
@@ -129,28 +130,32 @@
 
     $(document).ready(function () {
 
-      function getCustomers() {
+      function getUsers() {
         $.ajax({
-          url: "/get-customers",
+          url: "/get-users",
           dataType: "json",
           type: "GET",
           success: function (data) {
             console.log(data);
-            let str = `        <tr>
-          <th class="id_header"><span>ID</span></th>
-          <th class="name_header"><span>Name</span></th>
-          <th class="email_header"><span>Email</span></th>
-        </tr>`;
+            let str =
+              `<tr>
+                <th class="id-header"><span>ID</span></th>
+                <th class="first-name-header"><span>First Name</span></th>
+                <th class="last-name-header"><span>Last Name</span></th>
+                <th class="email-header"><span>email</span></th>
+                <th class="user-type-header"><span>User Type</span></th>
+              </tr>`;
             for (let i = 0; i < data.rows.length; i++) {
               let row = data.rows[i];
-              //console.log("row", row);
               str += ("<tr><td class='id'>" + row.ID
-                + "</td><td>" + row.name
+                + "</td><td class='first-name'>" + row.first_name + "</td>"
+                + "</td><td class='last-name'>" + row.last_name + "</td>"
                 + "</td><td class='email'><span>"
-                + row.email + "</span></td></tr>");
+                + row.email + "</span></td>"
+                + "</td><td class='user-type'>" + row.user_type + "</td></tr>");
             }
             //console.log(str);
-            $("#customers").html(str);
+            $("#users").html(str);
 
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -160,28 +165,32 @@
 
         });
       }
-      getCustomers();
+      getUsers();
 
 
       $('#submit').click(function (e) {
         e.preventDefault();
 
         let formData = {
-          name: $("#name").val(),
-          email: $("#email").val()
+          first_name: $("#first-name").val(),
+          last_name: $("#last-name").val(),
+          email: $("#email").val(),
+          user_type: $("#user-type").val()
         };
-        $("#name").val("");
+        $("#first-name").val("");
+        $("#last-name").val("");
         $("#email").val("");
+        $("#user-type").val("");
 
         $.ajax({
-          url: "/add-customer",
+          url: "/add-user",
           dataType: "json",
           type: "POST",
           data: formData,
           success: function (data) {
             //console.log(data);
             $("#status").html("DB updated.");
-            getCustomers();
+            getUsers();
           },
           error: function (jqXHR, textStatus, errorThrown) {
             $("#p2").text(jqXHR.statusText);
@@ -191,17 +200,17 @@
         });
       });
 
-      $('#deleteAll').click(function (e) {
+      $('#delete-all').click(function (e) {
         e.preventDefault();
 
         $.ajax({
-          url: "/delete-all-customers",
+          url: "/delete-all-users",
           dataType: "json",
           type: "POST",
           success: function (data) {
             console.log(data);
             $("#status").html("All records deleted.");
-            getCustomers();
+            getUsers();
           },
           error: function (jqXHR, textStatus, errorThrown) {
             $("#p2").text(jqXHR.statusText);
@@ -212,7 +221,7 @@
       });
 
       // http://stackoverflow.com/questions/11882693/change-table-cell-from-span-to-input-on-click
-      $('#customers').on('click', 'span', function () {
+      $('#users').on('click', 'span', function () {
 
         //console.log($(this).parent().attr('class'));
         if ($(this).parent().attr('class') === 'email') {
@@ -246,14 +255,14 @@
               };
               //console.log(dataToSend);
               $.ajax({
-                url: "/update-customer",
+                url: "/update-user",
                 dataType: "json",
                 type: "POST",
                 data: dataToSend,
                 success: function (data) {
                   //console.log(data);
                   $("#status").html("DB updated.");
-                  getCustomers();
+                  getUsers();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                   $("#p2").text(jqXHR.statusText);

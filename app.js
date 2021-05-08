@@ -1,5 +1,4 @@
 // Requires
-
 const express = require('express');
 const app = express();
 const fs = require("fs");
@@ -21,13 +20,12 @@ app.get('/', function (req, res) {
     // Table of GreenQuest users
     `CREATE DATABASE IF NOT EXISTS greenquest;
       use greenquest;
-    CREATE TABLE IF NOT EXISTS user (
+    CREATE TABLE IF NOT EXISTS users (
         ID int NOT NULL AUTO_INCREMENT,
         first_name varchar(30) NOT NULL,
         last_name varchar(50) NOT NULL,
         email varchar(50),
         user_type varchar(30) NOT NULL,
-        class varchar(20),
         PRIMARY KEY (ID)
         );`;
 
@@ -46,16 +44,16 @@ app.get('/', function (req, res) {
 });
 
 
-app.get('/get-customers', function (req, res) {
+app.get('/get-users', function (req, res) {
 
   let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'test'
+    database: 'greenquest'
   });
   connection.connect();
-  connection.query('SELECT * FROM customer', function (error, results, fields) {
+  connection.query('SELECT * FROM users', function (error, results, fields) {
     if (error) {
       throw error;
     }
@@ -75,48 +73,50 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Notice that this is a 'POST'
-app.post('/add-customer', function (req, res) {
+app.post('/add-user', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  console.log("Name", req.body.name);
-  console.log("Email", req.body.email);
+  console.log("First Name", req.body.first_name);
+  console.log("Last Name", req.body.last_name);
+  console.log("email", req.body.email);
+  console.log("User type", req.body.user_type);
 
   let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'test'
+    database: 'greenquest'
   });
   connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
-  connection.query('INSERT INTO customer (name, email) values (?, ?)',
-    [req.body.name, req.body.email],
-    function (error, results, fields) {
-      if (error) {
+  connection.query('INSERT INTO users (first_name, last_name, email, user_type) values (?, ?, ?, ?)',
+        [req.body.first_name, req.body.last_name, req.body.email, req.body.user_type],
+        function (error, results, fields) {
+    if (error) {
         throw error;
-      }
-      //console.log('Rows returned are: ', results);
-      res.send({ status: "success", msg: "Recorded added." });
+    }
+    //console.log('Rows returned are: ', results);
+    res.send({ status: "success", msg: "Recorded added." });
 
-    });
+  });
   connection.end();
 
 });
 
 // POST: we are changing stuff on the server!!!
-app.post('/delete-all-customers', function (req, res) {
+app.post('/delete-all-users', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
   let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'test'
+    database: 'greenquest'
   });
   connection.connect();
   // REALLY A DUMB THING TO DO, BUT JUST SHOWING YOU CAN
-  connection.query('DELETE FROM customer',
+  connection.query('DELETE FROM users',
     function (error, results, fields) {
       if (error) {
         throw error;
@@ -130,18 +130,18 @@ app.post('/delete-all-customers', function (req, res) {
 });
 
 // ANOTHER POST: we are changing stuff on the server!!!
-app.post('/update-customer', function (req, res) {
+app.post('/update-user', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
   let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'test'
+    database: 'greenquest'
   });
   connection.connect();
 
-  connection.query('UPDATE customer SET email = ? WHERE ID = ?',
+  connection.query('UPDATE users SET email = ? WHERE ID = ?',
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
