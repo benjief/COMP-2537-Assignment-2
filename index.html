@@ -1,36 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>CRUD SQL Example</title>
-    <meta charset="utf-8"/>
-    <style>
-      table {
-        background-color: #c9f0e2;
-        border: solid 1px;
-      }
-      td {
-        border-bottom: solid 1px;
-        padding: 4px;
-        text-align: center;
-      }
-      form {
-        width: 80%;
-        padding-top: 2em;
-      }
-    </style>
-  </head>
-  <body>
 
-    <div id="content">
-      <p><i>Only the email is editable</i></p>
-      <table id="customers">
-<!--
+<head>
+  <title>COMP 2537 - Assignment 2 - Team 19</title>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">\
+
+  <!-- Bootstrap for Mobile-first -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+  <!-- Optional styles and scripts -->
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mali&display=swap" rel="stylesheet">
+
+  <!-- Transfer this out into style.css -->
+  <style>
+    table {
+      background-color: #c9f0e2;
+      border: solid 1px;
+    }
+
+    td {
+      border-bottom: solid 1px;
+      padding: 4px;
+      text-align: center;
+    }
+
+    form {
+      width: 80%;
+      padding-top: 2em;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Nav bar -->
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand abs" href="#">GreenQuest</a>
+      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse" id="collapseNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="//codeply.com">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#myAlert" data-bs-toggle="collapse">Link</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="" data-bs-target="#myModal" data-bs-toggle="modal">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="content">
+    <p><i>Only the email is editable</i></p>
+    <table id="customers">
+      <!--
         <tr>
           <th class="name_header"><span>Name</span></th>
           <th class="email_header"><span>Email</span></th>
         </tr>
 -->
-<!--
+      <!--
         <tr>
           <td class="city"><span>Burnaby</span></td>
           <td class="province"><span>British Columbia</span></td>
@@ -40,171 +82,179 @@
           <td class="province"><span>British Columbia</span></td>
         </tr>
 -->
-      </table>
-      <form>
-        <fieldset>
-          <legend>Add a Customer</legend>
-          <input type="text" placeholder="name" id="name"/>
-          <input type="email" placeholder="email" id="email"/>
-          <input type="button" id="submit" value="Submit"/>
-        </fieldset>
-        <fieldset>
-          <legend>Delete All Customers (use with caution!)</legend>
-          <input type="button" id="deleteAll" value="Delete All"/>
-        </fieldset>
-      </form>
-      <p id="status"></p>
-    </div>
+    </table>
+    <form>
+      <fieldset>
+        <legend>Add a Customer</legend>
+        <input type="text" placeholder="name" id="name" />
+        <input type="email" placeholder="email" id="email" />
+        <input type="button" id="submit" value="Submit" />
+      </fieldset>
+      <fieldset>
+        <legend>Delete All Customers (use with caution!)</legend>
+        <input type="button" id="deleteAll" value="Delete All" />
+      </fieldset>
+    </form>
+    <p id="status"></p>
+  </div>
 
+  <!----------------------------------------------->
+  <!-- JS: Boostrap, JQuery, Firebase, API related    -->
+  <!----------------------------------------------->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>
+  <script>
 
-        $(document).ready(function() {
+    $(document).ready(function () {
 
-            function getCustomers() {
-                $.ajax({
-                    url: "/get-customers",
-                    dataType: "json",
-                    type: "GET",
-                    success: function(data) {
-                        console.log(data);
-                        let str = `        <tr>
+      function getCustomers() {
+        $.ajax({
+          url: "/get-customers",
+          dataType: "json",
+          type: "GET",
+          success: function (data) {
+            console.log(data);
+            let str = `        <tr>
           <th class="id_header"><span>ID</span></th>
           <th class="name_header"><span>Name</span></th>
           <th class="email_header"><span>Email</span></th>
         </tr>`;
-                        for(let i = 0; i < data.rows.length; i++) {
-                            let row = data.rows[i];
-                            //console.log("row", row);
-                            str += ("<tr><td class='id'>" + row.ID
-                                + "</td><td>" + row.name
-                                + "</td><td class='email'><span>"
-                                + row.email + "</span></td></tr>");
-                        }
-                        //console.log(str);
-                        $("#customers").html(str);
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        $("#p2").text(jqXHR.statusText);
-                        console.log("ERROR:", jqXHR, textStatus, errorThrown);
-                    }
-
-                });
+            for (let i = 0; i < data.rows.length; i++) {
+              let row = data.rows[i];
+              //console.log("row", row);
+              str += ("<tr><td class='id'>" + row.ID
+                + "</td><td>" + row.name
+                + "</td><td class='email'><span>"
+                + row.email + "</span></td></tr>");
             }
-            getCustomers();
+            //console.log(str);
+            $("#customers").html(str);
 
-
-            $('#submit').click(function(e) {
-                e.preventDefault();
-
-                let formData = { name: $("#name").val(),
-                                 email: $("#email").val()
-                               };
-                $("#name").val("");
-                $("#email").val("");
-
-                $.ajax({
-                    url: "/add-customer",
-                    dataType: "json",
-                    type: "POST",
-                    data: formData,
-                    success: function(data) {
-                        //console.log(data);
-                        $("#status").html("DB updated.");
-                        getCustomers();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        $("#p2").text(jqXHR.statusText);
-                        console.log("ERROR:", jqXHR, textStatus, errorThrown);
-                    }
-
-                });
-            });
-
-            $('#deleteAll').click(function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: "/delete-all-customers",
-                    dataType: "json",
-                    type: "POST",
-                    success: function(data) {
-                        console.log(data);
-                        $("#status").html("All records deleted.");
-                        getCustomers();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        $("#p2").text(jqXHR.statusText);
-                        console.log("ERROR:", jqXHR, textStatus, errorThrown);
-                    }
-
-                });
-            });
-
-            // http://stackoverflow.com/questions/11882693/change-table-cell-from-span-to-input-on-click
-            $('#customers').on('click', 'span', function() {
-
-                //console.log($(this).parent().attr('class'));
-                if($(this).parent().attr('class') === 'email') {
-                    //console.log($(this).text() );
-                    // got the td, let's use it create a slight-of-hand
-                    // create an input, put the text from the span into
-                    // the input, then when the user presses enter,
-                    // take the updated text from input and put it into a span
-                    // and remove the input
-                    let spanText = $(this).text();
-                    let td = $(this).parent();
-                    let input = $("<input type='text' value='" + spanText + "'>");
-
-                    td.html(input);
-                    //console.log(td.html());
-                    $(input).keyup(function(e) {
-                        let val = null;
-                        let span = null;
-                        if(e.which == 13) {
-                              //console.log(td);
-                            val = $(input).val();
-                            span = $("<span>" + val + "</span>");
-                            td.html(span);
-                            // lastly, send the update:
-
-                            console.log(td.parent().find("[class='id']")[0]);
-
-                            let dataToSend = {
-                                id: td.parent().find("[class='id']").html(),
-                                email: val
-                                           };
-                            //console.log(dataToSend);
-                            $.ajax({
-                                url: "/update-customer",
-                                dataType: "json",
-                                type: "POST",
-                                data: dataToSend,
-                                success: function(data) {
-                                    //console.log(data);
-                                    $("#status").html("DB updated.");
-                                    getCustomers();
-                                },
-                                error: function(jqXHR, textStatus, errorThrown) {
-                                    $("#p2").text(jqXHR.statusText);
-                                    console.log("ERROR:", jqXHR, textStatus, errorThrown);
-                                }
-
-                            });
-
-                        }
-                    });
-
-                }
-
-            });
-
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            $("#p2").text(jqXHR.statusText);
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+          }
 
         });
+      }
+      getCustomers();
 
-    </script>
 
-  </body>
+      $('#submit').click(function (e) {
+        e.preventDefault();
+
+        let formData = {
+          name: $("#name").val(),
+          email: $("#email").val()
+        };
+        $("#name").val("");
+        $("#email").val("");
+
+        $.ajax({
+          url: "/add-customer",
+          dataType: "json",
+          type: "POST",
+          data: formData,
+          success: function (data) {
+            //console.log(data);
+            $("#status").html("DB updated.");
+            getCustomers();
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            $("#p2").text(jqXHR.statusText);
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+          }
+
+        });
+      });
+
+      $('#deleteAll').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+          url: "/delete-all-customers",
+          dataType: "json",
+          type: "POST",
+          success: function (data) {
+            console.log(data);
+            $("#status").html("All records deleted.");
+            getCustomers();
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            $("#p2").text(jqXHR.statusText);
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+          }
+
+        });
+      });
+
+      // http://stackoverflow.com/questions/11882693/change-table-cell-from-span-to-input-on-click
+      $('#customers').on('click', 'span', function () {
+
+        //console.log($(this).parent().attr('class'));
+        if ($(this).parent().attr('class') === 'email') {
+          //console.log($(this).text() );
+          // got the td, let's use it create a slight-of-hand
+          // create an input, put the text from the span into
+          // the input, then when the user presses enter,
+          // take the updated text from input and put it into a span
+          // and remove the input
+          let spanText = $(this).text();
+          let td = $(this).parent();
+          let input = $("<input type='text' value='" + spanText + "'>");
+
+          td.html(input);
+          //console.log(td.html());
+          $(input).keyup(function (e) {
+            let val = null;
+            let span = null;
+            if (e.which == 13) {
+              //console.log(td);
+              val = $(input).val();
+              span = $("<span>" + val + "</span>");
+              td.html(span);
+              // lastly, send the update:
+
+              console.log(td.parent().find("[class='id']")[0]);
+
+              let dataToSend = {
+                id: td.parent().find("[class='id']").html(),
+                email: val
+              };
+              //console.log(dataToSend);
+              $.ajax({
+                url: "/update-customer",
+                dataType: "json",
+                type: "POST",
+                data: dataToSend,
+                success: function (data) {
+                  //console.log(data);
+                  $("#status").html("DB updated.");
+                  getCustomers();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                  $("#p2").text(jqXHR.statusText);
+                  console.log("ERROR:", jqXHR, textStatus, errorThrown);
+                }
+
+              });
+
+            }
+          });
+
+        }
+
+      });
+
+
+    });
+
+  </script>
+
+</body>
+
 </html>
