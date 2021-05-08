@@ -75,7 +75,6 @@ app.use(bodyParser.json());
 // Notice that this is a 'POST'
 app.post('/add-user', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-
   console.log("First Name", req.body.first_name);
   console.log("Last Name", req.body.last_name);
   console.log("email", req.body.email);
@@ -105,6 +104,32 @@ app.post('/add-user', function (req, res) {
 });
 
 // POST: we are changing stuff on the server!!!
+app.post('/delete-user', function (req, res) {
+  console.log(req.body.row_id);
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'greenquest'
+  });
+  connection.connect();
+
+  connection.query('DELETE FROM users WHERE ID = ' + req.body.row_id,
+    function (error, results, fields) {
+      if (error) {
+        throw error;
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({ status: "success", msg: "User deleted." });
+
+    });
+  connection.end();
+
+});
+
+// POST: we are changing stuff on the server!!!
 app.post('/delete-all-users', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
@@ -122,7 +147,7 @@ app.post('/delete-all-users', function (req, res) {
         throw error;
       }
       //console.log('Rows returned are: ', results);
-      res.send({ status: "success", msg: "Recorded all deleted." });
+      res.send({ status: "success", msg: "All users deleted." });
 
     });
   connection.end();

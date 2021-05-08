@@ -38,7 +38,8 @@
       border: solid 1px;
     }
 
-    th, td {
+    th,
+    td {
       border-bottom: solid 1px;
       padding: 4px;
       padding-left: 8px;
@@ -156,7 +157,7 @@
                 + "<td class='email'><span>"
                 + row.email + "</span></td>"
                 + "<td class='user-type'>" + row.user_type + "</td>"
-                + "<td class='delete'><a href='#' id='>" + i.toString() + "'>delete</a></td></tr>");
+                + "<td ><a class='delete' id='row-id-" + row.ID + "' href='#'>delete</a></td></tr>");
             }
             //console.log(str);
             $("#users").html(str);
@@ -170,7 +171,6 @@
         });
       }
       getUsers();
-
 
       $('#submit').click(function (e) {
         e.preventDefault();
@@ -204,6 +204,44 @@
         });
       });
 
+      // $(document).click(function (event) {
+      //   console.log("success");
+      //   console.log(event);
+      //   // let rowID = $(event.target).class;
+      //   console.log($(event.target).attr("id"));
+      //   console.log('test');
+      // });
+
+      $(document).click(function (e) {
+        if ($(e.target).attr("class") === "delete") {
+          console.log("success");
+          // Store id of element clicked on in rowNumber
+          let rowID = $(e.target).attr("id");
+          console.log(rowID);
+          // Extract row number from id
+          rowID = rowID.match(/\d+/);
+          let data = { row_id: parseInt(rowID)};
+          e.preventDefault();
+          $.ajax({
+            url: "/delete-user",
+            dataType: "json",
+            type: "POST",
+            data: data,
+            success: function (data) {
+              console.log(data);
+              $("#status").html("User " + rowID + " deleted.");
+              getUsers();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              $("#p2").text(jqXHR.statusText);
+              console.log("ERROR:", jqXHR, textStatus, errorThrown);
+            }
+
+          });
+        }
+
+      });
+
       $('#delete-all').click(function (e) {
         e.preventDefault();
 
@@ -213,27 +251,7 @@
           type: "POST",
           success: function (data) {
             console.log(data);
-            $("#status").html("All records deleted.");
-            getUsers();
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            $("#p2").text(jqXHR.statusText);
-            console.log("ERROR:", jqXHR, textStatus, errorThrown);
-          }
-
-        });
-      });
-
-      $('#delete').click(function (e) {
-        e.preventDefault();
-
-        $.ajax({
-          url: "/delete-all-users",
-          dataType: "json",
-          type: "POST",
-          success: function (data) {
-            console.log(data);
-            $("#status").html("All records deleted.");
+            $("#status").html("All users deleted.");
             getUsers();
           },
           error: function (jqXHR, textStatus, errorThrown) {
