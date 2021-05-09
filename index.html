@@ -33,9 +33,30 @@
       }
     }
 
+    .content {
+      display: grid;
+      grid-template-areas:
+        "add-user"
+        "current-users";
+    }
+
+    .form-container {
+      display: flex;
+      justify-content: center;
+      grid-area: add-user;
+    }
+
+    form {
+      width: 80%;
+      padding-top: 2em;
+    }
+
     table {
+      grid-area: current-users;
       background-color: #c9f0e2;
-      border: solid 1px;
+      border: solid black 1px;
+      justify-self: center;
+      margin-top: 50px;
     }
 
     th,
@@ -47,9 +68,8 @@
       text-align: center;
     }
 
-    form {
-      width: 80%;
-      padding-top: 2em;
+    tr:nth-child(even) {
+      background-color: white;
     }
   </style>
 
@@ -84,40 +104,25 @@
     </div>
   </nav>
 
-  <div id="content">
-    <p><i>Only the email is editable</i></p>
+  <div class="content">
     <table id="users">
-      <!--
-        <tr>
-          <th class="name_header"><span>Name</span></th>
-          <th class="email_header"><span>Email</span></th>
-        </tr>
--->
-      <!--
-        <tr>
-          <td class="city"><span>Burnaby</span></td>
-          <td class="province"><span>British Columbia</span></td>
-        </tr>
-        <tr>
-          <td class="city"><span>Vancouver</span></td>
-          <td class="province"><span>British Columbia</span></td>
-        </tr>
--->
     </table>
-    <form>
-      <fieldset>
-        <legend>Add a user</legend>
-        <input type="text" placeholder="first name" id="first-name" />
-        <input type="text" placeholder="last name" id="last-name" />
-        <input type="email" placeholder="email" id="email" />
-        <input type="text" placeholder="user type" id="user-type" />
-        <input type="button" id="submit" value="Submit" />
-      </fieldset>
-      <fieldset>
-        <legend>Delete all users (use with caution!)</legend>
-        <input type="button" id="delete-all" value="Delete All" />
-      </fieldset>
-    </form>
+    <div class="form-container">
+      <form>
+        <fieldset>
+          <legend>Add a user</legend>
+          <input type="text" placeholder="first name" id="first-name" />
+          <input type="text" placeholder="last name" id="last-name" />
+          <input type="email" placeholder="email" id="email" />
+          <input type="text" placeholder="user type" id="user-type" />
+          <input type="button" id="submit" value="Submit" />
+        </fieldset>
+        <fieldset>
+          <legend>Delete all users (use with caution!)</legend>
+          <input type="button" id="delete-all" value="Delete All" />
+        </fieldset>
+      </form>
+    </div>
     <p id="status"></p>
   </div>
 
@@ -273,7 +278,7 @@
           let td = $(this).parent();
           let input = $("<input type='text' value='" + spanText + "'>");
           let updateType = $(this).parent().attr('class');
-        
+
           td.html(input);
           //console.log(td.html());
           $(input).keyup(function (e) {
@@ -287,7 +292,7 @@
               // lastly, send the update:
 
               console.log(td.parent().find("[class='id']")[0]);
-              
+
               let dataToSend = {
                 update_type: updateType,
                 id: td.parent().find("[class='id']").html(),
