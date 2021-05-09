@@ -16,12 +16,14 @@
   <style>
     body {
       font-family: 'Mali', Arial, Helvetica, sans-serif;
+      color: rgb(95, 61, 13)
     }
 
     /* Nav bar styling */
-    .navbar-brand {
+    .navbar-light .navbar-brand {
       font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
       font-size: 13pt;
+      color: rgb(95, 61, 13);
     }
 
     .navbar {
@@ -54,14 +56,46 @@
 
     form {
       width: 80%;
-      padding-top: 2em;
+      padding: 2em;
+      margin-top: 50px;
+      font-size: 12pt;
+      border: solid 2px #fddaed;
+      border-style: dotted;
+      border-radius: 20px;
     }
 
-    input {}
+    legend {
+      font-size: 12pt;
+      font-weight: 600;
+    }
+
+    .button-container {
+      display: flex;
+    }
+
+    input {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      width: 100px;
+    }
+
+    #submit,
+    #delete-all {
+      width: 100px;
+      color: rgb(95, 61, 13);
+    }
+
+    #submit {
+      margin-right: 10px;
+    }
+
+    #delete-all {
+      color: red;
+    }
 
     table {
       grid-area: current-users;
-      border: solid black 1px;
+      border: solid rgb(95, 61, 13) 1px;
       justify-self: center;
       margin-top: 50px;
     }
@@ -69,8 +103,8 @@
     th,
     td {
       padding: 4px;
-      padding-left: 8px;
-      padding-right: 8px;
+      padding-left: 15px;
+      padding-right: 15px;
       text-align: center;
     }
 
@@ -87,6 +121,13 @@
       grid-area: update;
       margin-top: 50px;
       justify-content: center;
+      font-weight: 600;
+      color: rgb(0, 155, 0);
+    }
+
+    a {
+      text-decoration: none;
+      color: red;
     }
   </style>
 
@@ -132,16 +173,15 @@
           <input type="text" placeholder="last name" id="last-name" />
           <input type="email" placeholder="email" id="email" />
           <input type="text" placeholder="user type" id="user-type" />
-          <input type="button" id="submit" value="Submit" />
-        </fieldset>
-        <fieldset>
-          <legend>Delete all users (use with caution!)</legend>
-          <input type="button" id="delete-all" value="Delete All" />
+          <div class="button-container">
+            <input type="button" id="submit" value="Submit" />
+            <input type="button" id="delete-all" value="Delete All" />
+          </div>
         </fieldset>
       </form>
     </div>
     <div class="text-container">
-      <p id="status">test</p>
+      <p id="status"></p>
     </div>
   </div>
 
@@ -184,7 +224,7 @@
                 + row.email + "</span></td>"
                 + "<td class='user_type'><span>"
                 + row.user_type + "</span></td>"
-                + "<td ><a class='delete' id='row-id-" + row.ID + "' href='#'>delete</a></td></tr>");
+                + "<td ><a class='delete' id='row-id-" + row.ID + "' href='#'>Delete</a></td></tr>");
             }
             //console.log(str);
             $("#users").html(str);
