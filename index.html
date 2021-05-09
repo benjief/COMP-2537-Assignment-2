@@ -16,26 +16,28 @@
   <style>
     body {
       font-family: 'Mali', Arial, Helvetica, sans-serif;
-      color: rgb(95, 61, 13)
+      color: rgb(95, 61, 13);
+      text-align: center;
     }
 
     /* Nav bar styling */
     .navbar-light .navbar-brand {
       font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
       font-size: 13pt;
-      color: rgb(95, 61, 13);
+      color: rgb(133, 80, 5);
     }
 
     .navbar {
-      background-color: #dafaea;
+      background-color: #3bb441;
+      min-width: 350px;
     }
 
     /* We can change the media query width later */
     @media (min-width: 768px) {
       .navbar-brand.abs {
-        position: absolute;
-        width: 100%;
-        left: 0;
+        right: 37%;
+        width: auto;
+        position:absolute;
         text-align: center;
       }
     }
@@ -59,9 +61,14 @@
       padding: 2em;
       margin-top: 50px;
       font-size: 12pt;
-      border: solid 2px #fddaed;
-      border-style: dotted;
+      border: solid 2px #26a11b;
       border-radius: 20px;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    form:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
     }
 
     legend {
@@ -83,14 +90,36 @@
     #delete-all {
       width: 100px;
       color: rgb(95, 61, 13);
+
     }
 
     #submit {
-      margin-right: 10px;
+      margin-left: auto;
+      margin-right: 3px;
+      color: rgb(0, 151, 0);
+    }
+
+    #delete-all {
+      margin-right: auto;
+      margin-left: 3px;
     }
 
     #delete-all {
       color: red;
+    }
+
+    #delete-all:hover {
+      background-color: rgb(228, 64, 64);
+      box-shadow: 0 8px 16px 0 rgba(255, 0, 0, 0.2);
+      color: black;
+      font-weight: bolder;
+    }
+
+    #submit:hover {
+      background-color: rgb(1, 102, 6);
+      box-shadow: 0 8px 16px 0 rgba(0, 255, 13, 0.2);
+      color: rgb(255, 255, 255);
+      font-weight: bolder;
     }
 
     table {
