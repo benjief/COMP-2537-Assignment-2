@@ -16,7 +16,7 @@
   <style>
     body {
       font-family: 'Mali', Arial, Helvetica, sans-serif;
-      color: rgb(95, 61, 13);
+      color: rgb(148, 96, 24);
       text-align: center;
     }
 
@@ -35,11 +35,19 @@
     /* We can change the media query width later */
     @media (min-width: 768px) {
       .navbar-brand.abs {
-        right: 37%;
+        right: 39%;
         width: auto;
         position:absolute;
         text-align: center;
       }
+    }
+
+    .navbar-brand.abs:hover {
+      color: gold;
+      text-shadow:  0 4px 8px  rgba(0,0,0,0.5);;
+    }
+    .navbar-brand.abs:active {
+      color: rgb(153, 135, 31);
     }
 
     .content {
@@ -115,16 +123,24 @@
       font-weight: bolder;
     }
 
+    #delete-all:active {
+      background-color: rgb(124, 39, 39);
+    }
+
     #submit:hover {
-      background-color: rgb(1, 102, 6);
+      background-color: rgb(3, 136, 10);
       box-shadow: 0 8px 16px 0 rgba(0, 255, 13, 0.2);
       color: rgb(255, 255, 255);
       font-weight: bolder;
     }
 
+    #submit:active {
+      background-color: rgb(12, 100, 16);
+    }
+
     table {
       grid-area: current-users;
-      border: solid rgb(95, 61, 13) 1px;
+      border: solid rgb(153, 101, 28) 1px;
       justify-self: center;
       margin-top: 50px;
     }
@@ -138,13 +154,16 @@
     }
 
     th {
-      background-color: #dafaea;
+      background-color: #3bb441;
     }
 
     tr:nth-child(even) {
-      background-color: #fdeaf4;
+      background-color: #f7d4ce;
     }
 
+    tr:nth-child(odd) {
+      background-color: #fae2c2;
+    }
     .text-container {
       display: flex;
       grid-area: update;
@@ -240,7 +259,7 @@
                 <th class="id-header"><span>ID</span></th>
                 <th class="first-name-header"><span>First Name</span></th>
                 <th class="last-name-header"><span>Last Name</span></th>
-                <th class="email-header"><span>email</span></th>
+                <th class="email-header"><span>Email</span></th>
                 <th class="user-type-header"><span>User Type</span></th>
                 <th class="delete-header"><span></span></th>
               </tr>`;
