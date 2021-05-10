@@ -6,7 +6,8 @@
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap for Mobile-first -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
     <!-- Optional styles and scripts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -15,124 +16,141 @@
     <style>
         body {
             font-family: 'Mali', Arial, Helvetica, sans-serif;
-            color: rgb(148, 96, 24);
             text-align: center;
+            color: rgb(182, 174, 174);
         }
+
         /* Nav bar styling */
-        
-        .navbar-light .navbar-brand {
+        .navbar-dark .navbar-brand {
             font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
             font-size: 13pt;
-            color: rgb(133, 80, 5);
-            text-align: center;
         }
-        
+
         .navbar {
-            background-color: #3bb441;
-            min-width: 350px;
+            background-color: #a4d1a7;
         }
-        
+
         .navbar-brand.abs:hover {
-            color: gold;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            ;
+            color: rgb(255, 231, 248);
         }
-        
+
         .navbar-brand.abs:active {
-            color: rgb(153, 135, 31);
+            color: rgb(255, 185, 249);
         }
-        
+
         .content {
             display: grid;
-            grid-template-areas: "add-user" "current-users" "update";
+            grid-template-areas: "add-user""current-users""update";
         }
-        
+
         .form-container {
             display: flex;
             justify-content: center;
             grid-area: add-user;
         }
-        
+
         form {
             width: 80%;
             padding: 2em;
             margin-top: 50px;
             font-size: 12pt;
-            border: solid 2px #26a11b;
-            border-radius: 20px;
+            border: solid 2px #cab69c;
+            border-radius: 10px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             transition: 0.3s;
         }
-        
+
         form:hover {
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
         }
-        
+
         legend {
             font-size: 12pt;
             font-weight: 600;
         }
-        
+
         .button-container {
             display: flex;
         }
-        
+
         input {
             margin-top: 5px;
             margin-bottom: 5px;
             width: 100px;
         }
-        
+
         #submit,
         #delete-all {
             width: 100px;
-            color: rgb(95, 61, 13);
         }
-        
+
         #submit {
             margin-left: auto;
             margin-right: 3px;
-            color: rgb(0, 151, 0);
         }
-        
+
         #delete-all {
             margin-right: auto;
             margin-left: 3px;
         }
-        
+
         #delete-all {
             color: red;
         }
-        
+
         #delete-all:hover {
-            background-color: rgb(228, 64, 64);
-            box-shadow: 0 8px 16px 0 rgba(255, 0, 0, 0.2);
-            color: black;
+            background-color: rgb(255, 199, 241);
+            box-shadow: 0 8px 16px 0 rgb(255, 199, 241);
+            color: white;
             font-weight: bolder;
         }
-        
+
         #delete-all:active {
             background-color: rgb(124, 39, 39);
         }
-        
+
         #submit:hover {
-            background-color: rgb(3, 136, 10);
-            box-shadow: 0 8px 16px 0 rgba(0, 255, 13, 0.2);
+            background-color: #a4d1a7;
+            box-shadow: 0 8px 16px 0 #a4d1a7;
             color: rgb(255, 255, 255);
             font-weight: bolder;
         }
-        
+
         #submit:active {
             background-color: rgb(12, 100, 16);
         }
-        
-        table {
-            grid-area: current-users;
-            border: solid rgb(153, 101, 28) 1px;
-            justify-self: center;
+
+        .table-container {
+            display: flex;
+            justify-content: center;
             margin-top: 50px;
+            width: 50%;
+            justify-self: center;
+            grid-area: current-users;
         }
-        
+
+        table {
+            width: 100%;
+            position: relative;
+            top: -0.5px;
+        }
+
+        table th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        table th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 10px;
+        }
+
         th,
         td {
             padding: 4px;
@@ -140,63 +158,71 @@
             padding-right: 15px;
             text-align: center;
         }
-        
+
         th {
-            background-color: #3bb441;
+            background-color: #cab69c;
         }
-        
-        tr:nth-child(even) {
-            background-color: #f7d4ce;
-        }
-        
+
         tr:nth-child(odd) {
-            background-color: #fae2c2;
+            background-color: #cab69c;
+            color: white;
         }
-        
+
         .text-container {
             display: flex;
             grid-area: update;
-            margin-top: 50px;
+            margin-top: 20px;
+            margin-bottom: 20px;
             justify-content: center;
             font-weight: 600;
             color: rgb(0, 155, 0);
         }
-        
+
+        #status {
+            display: flex;
+            height: 100%;
+            align-items: center;
+        }
+
         a {
             text-decoration: none;
             color: red;
         }
-        
-        .bottom {
+
+        .footer-container {
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
+
         footer {
             display: inline flex;
-            background: rgb(155, 189, 155);
-            font-size: 18pt;
-            padding: 40px;
-            border-radius: 25px;
+            background: #a4d1cf;
+            font-size: 12pt;
+            padding-left: 40px;
+            padding-right: 40px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border-radius: 10px;
             color: white;
             filter: drop-shadow(0px 10px 4px #b9b8b8);
         }
-        
+
+        h2 {
+            font-size: 12pt;
+        }
+
         .list {
             padding: 20px;
         }
+
         /* We can change the media query width later */
-        
+
         @media (min-width: 768px) {
             .navbar-brand.abs {
-                right: 39%;
+                align-self: center;
                 width: auto;
-                position: absolute;
                 text-align: center;
-            }
-            .bottom {
-                font-size: 12pt;
             }
         }
     </style>
@@ -205,38 +231,28 @@
 
 <body>
     <!-- Nav bar -->
-    <nav class="navbar navbar-expand-md navbar-light">
+    <nav class="navbar navbar-expand-md navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand abs" href="/index.html">GreenQuest</a>
-            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="navbar-collapse collapse" id="collapseNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="/index.html">Home</a>
                     </li>
-                    <!-- Removed placeholders to fit assignment criteria - feel free to create more links/content -->
-                    <!-- <li class="nav-item">
-          <a class="nav-link" href="//codeply.com">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#myAlert" data-bs-toggle="collapse">Link</a>
-        </li> -->
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <!-- Removed placeholders to fit assignment criteria - feel free to create more links/content -->
-                    <!-- <li class="nav-item">
-          <a class="nav-link" href="#" data-bs-target="#myModal" data-bs-toggle="modal">About</a>
-        </li> -->
                 </ul>
             </div>
         </div>
     </nav>
 
     <div class="content">
-        <table id="users">
-        </table>
+        <div class="table-container">
+            <table id="users">
+            </table>
+        </div>
         <div class="form-container">
             <form>
                 <fieldset>
@@ -257,7 +273,7 @@
         </div>
     </div>
 
-    <div class="bottom">
+    <div class="footer-container">
         <footer>
             <h2>Team 19</h2>
             <hr>
@@ -274,19 +290,20 @@
     <!----------------------------------------------->
     <!-- JS: Boostrap, JQuery, Firebase, API related    -->
     <!----------------------------------------------->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             function getUsers() {
                 $.ajax({
                     url: "/get-users",
                     dataType: "json",
                     type: "GET",
-                    success: function(data) {
+                    success: function (data) {
                         console.log(data);
                         let str =
                             `<tr>
@@ -297,9 +314,10 @@
                 <th class="user-type-header"><span>User Type</span></th>
                 <th class="delete-header"><span></span></th>
               </tr>`;
+                        let tableData = "";
                         for (let i = 0; i < data.rows.length; i++) {
                             let row = data.rows[i];
-                            str += ("<tr><td class='id'>" + row.ID +
+                            tableData += ("<tr><td class='id'>" + row.ID +
                                 "</td><td class='first_name'><span>" +
                                 row.first_name + "</span></td>" +
                                 "<td class='last_name'><span>" +
@@ -308,13 +326,20 @@
                                 row.email + "</span></td>" +
                                 "<td class='user_type'><span>" +
                                 row.user_type + "</span></td>" +
-                                "<td ><a class='delete' id='row-id-" + row.ID + "' href='#'>Delete</a></td></tr>");
+                                "<td ><a class='delete' id='row-id-" + row.ID +
+                                "' href='#'>Delete</a></td></tr>");
                         }
-                        //console.log(str);
-                        $("#users").html(str);
-
+                        if (tableData != "") {
+                            str += tableData;
+                            $("#users").html(str);
+                            $("#users").css({
+                                visibility: "visible"
+                            });
+                        } else {
+                            $("#users").html("No data to display")
+                        }
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         $("#p2").text(jqXHR.statusText);
                         console.log("ERROR:", jqXHR, textStatus, errorThrown);
                     }
@@ -323,7 +348,7 @@
             }
             getUsers();
 
-            $('#submit').click(function(e) {
+            $('#submit').click(function (e) {
                 e.preventDefault();
 
                 let formData = {
@@ -342,12 +367,12 @@
                     dataType: "json",
                     type: "POST",
                     data: formData,
-                    success: function(data) {
+                    success: function (data) {
                         //console.log(data);
                         $("#status").html("DB updated.");
                         getUsers();
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         $("#p2").text(jqXHR.statusText);
                         console.log("ERROR:", jqXHR, textStatus, errorThrown);
                     }
@@ -355,7 +380,7 @@
                 });
             });
 
-            $(document).click(function(e) {
+            $(document).click(function (e) {
                 if ($(e.target).attr("class") === "delete") {
                     console.log("success");
                     // Store id of element clicked on in rowNumber
@@ -372,12 +397,12 @@
                         dataType: "json",
                         type: "POST",
                         data: data,
-                        success: function(data) {
+                        success: function (data) {
                             console.log(data);
                             $("#status").html("User " + rowID + " deleted.");
                             getUsers();
                         },
-                        error: function(jqXHR, textStatus, errorThrown) {
+                        error: function (jqXHR, textStatus, errorThrown) {
                             $("#p2").text(jqXHR.statusText);
                             console.log("ERROR:", jqXHR, textStatus, errorThrown);
                         }
@@ -387,19 +412,19 @@
 
             });
 
-            $('#delete-all').click(function(e) {
+            $('#delete-all').click(function (e) {
                 e.preventDefault();
 
                 $.ajax({
                     url: "/delete-all-users",
                     dataType: "json",
                     type: "POST",
-                    success: function(data) {
+                    success: function (data) {
                         console.log(data);
                         $("#status").html("All users deleted.");
                         getUsers();
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         $("#p2").text(jqXHR.statusText);
                         console.log("ERROR:", jqXHR, textStatus, errorThrown);
                     }
@@ -408,11 +433,13 @@
             });
 
             // http://stackoverflow.com/questions/11882693/change-table-cell-from-span-to-input-on-click
-            $('#users').on('click', 'span', function() {
+            $('#users').on('click', 'span', function () {
 
                 //console.log($(this).parent().attr('class'));
-                if ($(this).parent().attr('class') === 'first_name' || $(this).parent().attr('class') === 'last_name' ||
-                    $(this).parent().attr('class') === 'email' || $(this).parent().attr('class') === 'user_type') {
+                if ($(this).parent().attr('class') === 'first_name' || $(this).parent().attr(
+                        'class') === 'last_name' ||
+                    $(this).parent().attr('class') === 'email' || $(this).parent().attr('class') ===
+                    'user_type') {
                     //console.log($(this).text() );
                     // got the td, let's use it create a slight-of-hand
                     // create an input, put the text from the span into
@@ -426,7 +453,7 @@
 
                     td.html(input);
                     //console.log(td.html());
-                    $(input).keyup(function(e) {
+                    $(input).keyup(function (e) {
                         let val = null;
                         let span = null;
                         if (e.which == 13) {
@@ -449,14 +476,15 @@
                                 dataType: "json",
                                 type: "POST",
                                 data: dataToSend,
-                                success: function(data) {
+                                success: function (data) {
                                     //console.log(data);
                                     $("#status").html("DB updated.");
                                     getUsers();
                                 },
-                                error: function(jqXHR, textStatus, errorThrown) {
+                                error: function (jqXHR, textStatus, errorThrown) {
                                     $("#p2").text(jqXHR.statusText);
-                                    console.log("ERROR:", jqXHR, textStatus, errorThrown);
+                                    console.log("ERROR:", jqXHR, textStatus,
+                                        errorThrown);
                                 }
 
                             });
