@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>COMP 2537 - Assignment 2 - Team 19</title>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap for Mobile-first -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+  <!-- Optional styles and scripts -->
+  <link href="../css/style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mali&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Nav bar -->
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand abs" href="html/index.html">GreenQuest</a>
+      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse" id="collapseNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="table-container">
+      <table id="users">
+      </table>
+    </div>
+    <div class="form-container">
+      <form>
+        <fieldset>
+          <legend>Add a user</legend>
+          <input type="text" placeholder="first name" id="first-name" />
+          <input type="text" placeholder="last name" id="last-name" />
+          <input type="email" placeholder="email" id="email" />
+          <input type="text" placeholder="user type" id="user-type" />
+          <div class="button-container">
+            <input type="button" id="submit" value="Submit" />
+            <input type="button" id="delete-all" value="Delete All" />
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="text-container">
+      <p id="status"></p>
+    </div>
+  </div>
+
+  <div class="footer-container">
+    <footer>
+      <h2>Team 19</h2>
+      <hr>
+      <ul class="list">
+        <li>Benjie Friedman • (A01248859)</li>
+        <li>Samuel Tjahadi • (A00978466)</li>
+        <li>Giwoun Bae • (A01243484) </li>
+        <li>Gyephel Tenzin • (A01178786)</li>
+      </ul>
+      <hr>
+      <h2>Assignment 02 • COMP 2537</h2>
+    </footer>
+  </div>
+  <!----------------------------------------------->
+  <!-- JS: Boostrap, JQuery, Firebase, API related    -->
+  <!----------------------------------------------->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+
+      function getUsers() {
+        $.ajax({
+          url: "/get-users",
+          dataType: "json",
+          type: "GET",
+          success: function (data) {
+            console.log(data);
+            let str =
+              `<tr>
+                <th class="id-header"><span>ID</span></th>
+                <th class="first-name-header"><span>First Name</span></th>
+                <th class="last-name-header"><span>Last Name</span></th>
+                <th class="email-header"><span>Email</span></th>
+                <th class="user-type-header"><span>User Type</span></th>
+                <th class="delete-header"><span></span></th>
+              </tr>`;
+            let tableData = "";
+            for (let i = 0; i < data.rows.length; i++) {
+              let row = data.rows[i];
+              tableData += ("<tr><td class='id'>" + row.ID +
+                "</td><td class='first_name'><span>" +
+                row.first_name + "</span></td>" +
+                "<td class='last_name'><span>" +
+                row.last_name + "<span></td>" +
+                "<td class='email'><span>" +
+                row.email + "</span></td>" +
+                "<td class='user_type'><span>" +
+                row.user_type + "</span></td>" +
+                "<td ><a class='delete' id='row-id-" + row.ID +
+                "' href='#'>Delete</a></td></tr>");
+            }
+            if (tableData != "") {
+              str += tableData;
+              $("#users").html(str);
+              $("#users").css({
+                visibility: "visible"
+              });
+            } else {
+              $("#users").html("No data to display")
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            $("#p2").text(jqXHR.statusText);
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+          }
+
+        });
+      }
+      getUsers();
+
+      $('#submit').click(function (e) {
+        e.preventDefault();
+
+        let formData = {
+          first_name: $("#first-name").val(),
+          last_name: $("#last-name").val(),
+          email: $("#email").val(),
+          user_type: $("#user-type").val()
+        };
+        $("#first-name").val("");
+        $("#last-name").val("");
+        $("#email").val("");
+        $("#user-type").val("");
+
+        $.ajax({
+          url: "/add-user",
+          dataType: "json",
+          type: "POST",
+          data: formData,
+          success: function (data) {
+            //console.log(data);
+            $("#status").html("DB updated.");
+            getUsers();
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            $("#p2").text(jqXHR.statusText);
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+          }
+
+        });
+      });
+
+      $(document).click(function (e) {
+        if ($(e.target).attr("class") === "delete") {
+          console.log("success");
+          // Store id of element clicked on in rowNumber
+          let rowID = $(e.target).attr("id");
+          console.log(rowID);
+          // Extract row number from id
+          rowID = rowID.match(/\d+/);
+          let data = {
+            row_id: parseInt(rowID)
+          };
+          e.preventDefault();
+          $.ajax({
+            url: "/delete-user",
+            dataType: "json",
+            type: "POST",
+            data: data,
+            success: function (data) {
+              console.log(data);
+              $("#status").html("User " + rowID + " deleted.");
+              getUsers();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              $("#p2").text(jqXHR.statusText);
+              console.log("ERROR:", jqXHR, textStatus, errorThrown);
+            }
+
+          });
+        }
+
+      });
+
+      $('#delete-all').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+          url: "/delete-all-users",
+          dataType: "json",
+          type: "POST",
+          success: function (data) {
+            console.log(data);
+            $("#status").html("All users deleted.");
+            getUsers();
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            $("#p2").text(jqXHR.statusText);
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+          }
+
+        });
+      });
+
+      // http://stackoverflow.com/questions/11882693/change-table-cell-from-span-to-input-on-click
+      $('#users').on('click', 'span', function () {
+
+        //console.log($(this).parent().attr('class'));
+        if ($(this).parent().attr('class') === 'first_name' || $(this).parent().attr(
+          'class') === 'last_name' ||
+          $(this).parent().attr('class') === 'email' || $(this).parent().attr('class') ===
+          'user_type') {
+          //console.log($(this).text() );
+          // got the td, let's use it create a slight-of-hand
+          // create an input, put the text from the span into
+          // the input, then when the user presses enter,
+          // take the updated text from input and put it into a span
+          // and remove the input
+          let spanText = $(this).text();
+          let td = $(this).parent();
+          let input = $("<input type='text' value='" + spanText + "'>");
+          let updateType = $(this).parent().attr('class');
+
+          td.html(input);
+          //console.log(td.html());
+          $(input).keyup(function (e) {
+            let val = null;
+            let span = null;
+            if (e.which == 13) {
+              //console.log(td);
+              val = $(input).val();
+              span = $("<span>" + val + "</span>");
+              td.html(span);
+              // lastly, send the update:
+
+              console.log(td.parent().find("[class='id']")[0]);
+
+              let dataToSend = {
+                update_type: updateType,
+                id: td.parent().find("[class='id']").html(),
+                value: val
+              };
+              //console.log(dataToSend);
+              $.ajax({
+                url: "/update-user",
+                dataType: "json",
+                type: "POST",
+                data: dataToSend,
+                success: function (data) {
+                  //console.log(data);
+                  $("#status").html("DB updated.");
+                  getUsers();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                  $("#p2").text(jqXHR.statusText);
+                  console.log("ERROR:", jqXHR, textStatus,
+                    errorThrown);
+                }
+
+              });
+
+            }
+          });
+
+        }
+
+      });
+
+
+    });
+  </script>
+
+</body>
+
+</html>

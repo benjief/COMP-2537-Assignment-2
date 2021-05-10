@@ -1,0 +1,103 @@
+/* CSS for all pages */
+
+/* Nav bar styling */
+.navbar-brand {
+    font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
+    font-size: 13pt;
+}
+
+.navbar {
+    background-color: rgb(72, 143, 102);
+}
+
+/* We can change the media query width later */
+@media (min-width: 768px) {
+    .navbar-brand.abs
+        {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            text-align: center;
+        }
+    }
+
+/* CSS for all pages */
+
+/* Nav bar styling */
+.navbar-brand {
+    font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
+    font-size: 13pt;
+}
+
+.navbar {
+    background-color: rgb(72, 143, 102);
+}
+
+/* We can change the media query width later */
+@media (min-width: 768px) {
+    .navbar-brand.abs
+        {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            text-align: center;
+        }
+    }
+
+/* Body styling */
+body {
+    font-family: 'Mali', Arial, Helvetica, sans-serif;
+    font-size: 13pt;
+}
+
+/* Page container and heading styling */
+.page-container {
+    margin-top: 50px;
+}
+
+.heading-container {
+    display: flex;
+    grid-area: header;
+    font-size: 25pt;
+    font-weight: 600;
+    justify-content: center;
+    margin-bottom: 50px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.page-heading {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+/* Content card styling */
+#main-content-card {
+    display: grid;
+    grid-area: content-card;
+    margin-top: 10px;
+    width: 90%;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    border-radius: 7px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 40px;
+}
+
+.card-text-container {
+    display: flex;
+    grid-area: card-text;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 20pt;
+}
+
+/* Other styling */
+.button {
+    color: white;
+    text-decoration: none;
+}

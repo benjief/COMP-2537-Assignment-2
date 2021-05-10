@@ -5,6 +5,10 @@ const fs = require("fs");
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
+// Static Directories
+app.use('/css', express.static('static/css'));
+app.use('/html', express.static('static/html'));
+
 // Gets
 app.get('/', function (req, res) {
 
@@ -39,7 +43,7 @@ app.get('/', function (req, res) {
   });
   connection.end();
 
-  let doc = fs.readFileSync('./index.html', "utf8");
+  let doc = fs.readFileSync('./static/html/index.html', "utf8");
   res.send(doc);
 });
 
